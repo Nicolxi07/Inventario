@@ -13,6 +13,9 @@ res.json(result);
 
 }
 
+
+
+
 const postCategorias = async (req, res) => {
     try {
        const {CategoriaNombre, Descripcion, Imagen}= req.body;
@@ -32,7 +35,23 @@ const category ={CategoriaNombre, Descripcion, Imagen}
     }
 }
 
+const getCategory = async (req, res)=>{
+    try {
+        console.log(req.param);
+        const {id} = req.params
+        
+const connection = await getConnection();
+const result = await connection.query("SELECT CategoriaID, CategoriaNombre, Descripcion, Imagen FROM  categorias WHERE CategoriaID = ?", id)
+
+res.json(result);
+    } catch (error) {
+        console.error(" ERROR 500 "); 
+    }
+
+}
+
 export const methodHTPP = {
     getCategorias, 
-    postCategorias
+    postCategorias,
+    getCategory
 }
