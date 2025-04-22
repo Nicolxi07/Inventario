@@ -53,7 +53,7 @@ res.json(result);
 
 const deleteCategory = async (req, res)=>{
     try {
-        console.log("id de categoria a borrar: ", req.param);
+        console.log("id de categoria a borrar: ", req.params);
         const {id} = req.params
         
 const connection = await getConnection();
@@ -67,9 +67,28 @@ res.json(result);
 }
 
 
+const updateCategorias = async (req, res) => {
+    try {
+        const {id} = req.params
+       const {CategoriaNombre, Descripcion, Imagen}= req.body;
+const category ={CategoriaNombre, Descripcion, Imagen}
+        const connection = await getConnection();
+       const result = await connection.query("UPDATE categorias SET ? WHERE CategoriaID = ?", [category, id])
+
+
+        res.json(result)
+
+
+    } catch (error) {
+        console.error(" ERROR 500 "); 
+    }
+}
+
+
 export const methodHTPP = {
     getCategorias, 
     postCategorias,
     getCategory,
-    deleteCategory
+    deleteCategory,
+    updateCategorias
 }
